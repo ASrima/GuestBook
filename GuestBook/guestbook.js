@@ -1,11 +1,9 @@
 var numUpdates = 0
 //solved the XSS attack issue but does not display any input
 //var numUpdates  = document.createElement("input");
-numUpdates .setAttribute("sender ", "text","mood");
-numUpdates .setAttribute("value", '<%=Encoder.encodeForJS(numUpdates)%>');
 //var form1 = document.forms[0];
 //form1.appendChild(numUpdates );
-
+ 
 function updateMessages() {
   $("#table tr:not(:first)").empty()
     numUpdates++
@@ -14,13 +12,14 @@ function updateMessages() {
         d = JSON.stringify(data)
       //$("#messages").html(d)
       for(var i = 0; i < data.length; i++){
-        $("#table").append( '<tr>' + "<td>" + data[i].sender + "</td><td>" + data[i].text+ "</td><td>" + data[i].mood + "</td>"+ "</tr>")
+        // added .replace
+        $("#table").append( '<tr>' + "<td>" + data[i].sender + "</td><td>" + (data[i].text).replace("<script>", "").replace("</script>", "") + "</td><td>" + data[i].mood + "</td>"+ "</tr>")
       }
     })
     // Call this function again after 10s delay
     setTimeout(updateMessages, 10000)
 }
-
+ 
 $(function(){
     console.log("READY TO GO.")
     ;
@@ -37,7 +36,7 @@ $(function(){
         var obj = {sender: sender, text: message}
         if(mood.length > 0){
               obj = {sender: sender, text: message, mood:mood}
-
+ 
         }
         console.log(obj)
         // TODO(CL): fix OPTIONS for CORS preflight on server

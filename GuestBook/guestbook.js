@@ -1,8 +1,4 @@
 var numUpdates = 0
-//solved the XSS attack issue but does not display any input
-//var numUpdates  = document.createElement("input");
-//var form1 = document.forms[0];
-//form1.appendChild(numUpdates );
  
 function updateMessages() {
   $("#table tr:not(:first)").empty()
